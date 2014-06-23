@@ -1,3 +1,12 @@
+import ddf.minim.spi.*;
+import ddf.minim.signals.*;
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+import ddf.minim.ugens.*;
+import ddf.minim.effects.*;
+Minim minim;
+AudioPlayer musicplayer;
+
 PImage player, enemy, bg;
 float box;
 int boxLimit = 50;
@@ -50,6 +59,8 @@ float totalBlocks;
 float blockAd;
 
 void setup() {
+  minim = new Minim(this);
+  musicplayer = minim.loadFile("song1.mp3");
   player = loadImage("player.png");
   String loadData[] = loadStrings("data.txt");
   data = float(loadData);
@@ -183,6 +194,7 @@ void setup() {
   blackguy = new Enemy(4, 1, 4, 6, 7, 16, 0);
   blackguy.stringAssign("Black guy attacks!", "Black guy attacks!", "Black guy stabs you for taking his Kool-Aid!", "Black guy ain't got time fo yo mess!");
   blackguy.statAssign(200, 0, 0, 0, 0, 0, 0, 5, 5, 5, 0, 0, 0);
+  musicplayer.loop();
 }
 
 void testStuff()
