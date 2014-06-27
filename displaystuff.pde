@@ -1,5 +1,6 @@
 void displaystuff()
 {
+  println(bps);
   if (location == 0)
   {
     fill(0);
@@ -7,6 +8,7 @@ void displaystuff()
     rect(50, 50, 150, 150);
     noFill();
     text("Total Blocks: " + floor(totalBlocks), 50, 250);
+    text("Blocks per Second: " + notation(bps, 2),50,235);
     text("Save", 16, 25);
     text("Reset", 69, 25);
     rect(5, 5, 50, 30);

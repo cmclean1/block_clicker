@@ -3,6 +3,7 @@ class Dot {
   int price;
   float count;
   float auto;
+  float autoCount;
   float increment;
   float alchCount;
   color textFill;
@@ -91,7 +92,8 @@ class Dot {
         text(">", 172, locationn);
       }
     }
-    totalBlocks = totalBlocks + (count*auto);
+    autoCount = count*auto;
+    totalBlocks = totalBlocks + (autoCount);
     price = int(pow(round(((count+adCount+alchCount)+1)*increment), 1.02));
   }
   void displayBattle(int x, int y)

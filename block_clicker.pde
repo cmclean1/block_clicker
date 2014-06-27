@@ -17,6 +17,7 @@ boolean killedWitch;
 int unlockGeneral;
 int unlockBattle;
 float bps;
+String bpsString;
 Dungeon forest, cave, club, witchhut, hell, bikini, walmart;
 Enemy tree, rock;
 Enemy moustache, rpg;
@@ -216,6 +217,9 @@ void testStuff()
 }
 void draw() {
   testStuff();  
+  frameRate = 60;
+  bps = (red.autoCount+green.autoCount+purple.autoCount+gold.autoCount+orange.autoCount+white.autoCount+black.autoCount+blue.autoCount)*frameRate;
+  bpsString = nf(bps, 2, 2);
   strokeJoin(MITER);
   textAlign(LEFT);
   background(255);
@@ -483,6 +487,29 @@ boolean ifMouse(int mousex1, int mousex2, int mousey1, int mousey2) {
     return true;
   } else {
     return false;
+  }
+}
+
+String notation(float x, int decimal)
+{
+  String baseten;
+  String what;
+  int basetentimes = 0;
+  float xx = x;
+  if (xx <= 99)
+  {
+    what = "" + nf(x, 0, decimal);
+    return what;
+  } else
+  {
+    while (xx >=99)
+    {
+      xx = xx/10;
+      basetentimes++;
+    }
+    baseten = " x 10^" + basetentimes;
+    what = nf(xx, 2, decimal) + baseten;
+    return what;
   }
 }
 
