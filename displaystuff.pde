@@ -11,8 +11,10 @@ void displaystuff()
     text("Reset", 69, 25);
     rect(5, 5, 50, 30);
     rect(60, 5, 50, 30);
-  }
-  if (location == 1)
+  } else if (location == -1)
+  {
+    text("Welcome to the Farm! First, you must buy a \nfarm with blocks, then plant the corresponding \ndot. Farms automatically make more basic \ndots, but consume more blocks to do so. The block \nreduction is not calculated on the home screen.", 20, 50);
+  } else if (location == 1)
   {
     noFill();
     rect(150, 25, 10, 10);
@@ -24,13 +26,11 @@ void displaystuff()
     text("Blocks: " + floor(totalBlocks), 50, 35);
     text("Intventory Size: " + int(box), 350, 100);
     text("Limit: " + boxLimit, 350, 115);
-  }
-  if (location == 2)
+  } else if (location == 2)
   {
     textAlign(CENTER);
     text("Where to Go?", width/2, 50);
-  }
-  if (location == 7)
+  } else if (location == 7)
   {
     bg = loadImage("circle.png");
     image(bg, 0, 0, 500, 500);
@@ -44,17 +44,14 @@ void displaystuff()
       alchText = "Combine some elements, fool!";
     }
     text(alchText, width/2, 15);
-  }
-  if (location == 8)
+  } else if (location == 8)
   {
     text("Intventory Size: " + int(box), 350, 100);
     text("Limit: " + boxLimit, 350, 115);
-  }
-  if (location == 9)
+  } else if (location == 9)
   {
     alchbook();
-  }
-  if (location == 10)
+  } else if (location == 10)
   {
     if (!combined)
     {
@@ -68,13 +65,11 @@ void displaystuff()
     fill(0);
     textAlign(CENTER);
     text("COMBINE", width/2, height/2);
-  }
-  if (location == 11)
+  } else if (location == 11)
   {
     text("Intventory Size: " + int(box), 350, 100);
     text("Limit: " + boxLimit, 350, 115);
-  }
-  if (location == 12)
+  } else if (location == 12)
   {
     sumbook();
   }

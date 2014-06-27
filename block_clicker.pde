@@ -16,6 +16,7 @@ int location = 0;
 boolean killedWitch;
 int unlockGeneral;
 int unlockBattle;
+float bps;
 Dungeon forest, cave, club, witchhut, hell, bikini, walmart;
 Enemy tree, rock;
 Enemy moustache, rpg;
@@ -26,6 +27,7 @@ Enemy squilliam, pitbull;
 Enemy blackguy;
 Summon triangle, circle, square, angle, polygon, pentagon, heart, line;
 /*
+ farm = -1
  home = 0
  storage = 1
  adventure = 2
@@ -48,12 +50,13 @@ String saveData;
 String loadData;
 float data[];
 
-button Storage, Home, Back, Upgrades, Adventure, Forest, Cave, Club, Witch, Hell, Bikini, Walmart, Alchemist, AlchBag, AlchBook, Summon, SummonBag, SummonBook;
+button Storage, Home, Back, Upgrades, Adventure, Forest, Cave, Club, Witch, Hell, Bikini, Walmart, Alchemist, AlchBag, AlchBook, Summon, SummonBag, SummonBook, Farm;
 
 ugButton Health, Click, Inv, SeeHealth, neverMiss, moreDamage, moreHeal, moreDef;
 
 Dot red, green, purple, gold, orange, white, black, blue;
 Dot diamond, unstable, garnet, rainbow, obsidian, emerald, ruby, amethyst;
+Farm redFarm, greenFarm, purpleFarm, goldFarm, orangeFarm, whiteFarm, blackFarm, blueFarm;
 
 float totalBlocks;
 float blockAd;
@@ -91,6 +94,15 @@ void setup() {
   obsidian = new Dot(-.1, 1, "Obsidian", 35, 36); 
   unstable = new Dot( random(-.001, .001), 1, "Unstable", 29, 30);
 
+  redFarm = new Farm(1, color(255, 0, 0), 50);
+  greenFarm = new Farm(2, color(0, 255, 0), 100);
+  purpleFarm = new Farm(3, color(255, 0, 255), 150);
+  goldFarm = new Farm(4, color(216, 194, 22), 200);
+  orangeFarm = new Farm(5, color(255, 129, 3), 250);
+  whiteFarm = new Farm(6, color(255), 300);
+  blackFarm = new Farm(7, color(0), 350);
+  blueFarm = new Farm(8, color(0, 0, 255), 400);
+
   Storage = new button(50, 425);
   Home = new button(50, 425);
   Adventure = new button(350, 425);
@@ -109,6 +121,7 @@ void setup() {
   Summon = new button(225, 175);
   SummonBag = new button(380, 50);
   SummonBook = new button(380, 425);
+  Farm = new button(225, 250);
 
   Health = new ugButton(50, 50, "More Health:", 10);
   Click = new ugButton(50, 105, "Better Clicks:", 11);
@@ -194,11 +207,12 @@ void setup() {
   blackguy = new Enemy(4, 1, 4, 6, 7, 16, 0);
   blackguy.stringAssign("Black guy attacks!", "Black guy attacks!", "Black guy stabs you for taking his Kool-Aid!", "Black guy ain't got time fo yo mess!");
   blackguy.statAssign(200, 0, 0, 0, 0, 0, 0, 5, 5, 5, 0, 0, 0);
-  musicplayer.loop();
+  // musicplayer.loop();
 }
 
 void testStuff()
 {
+  unlockGeneral = 10;
 }
 void draw() {
   testStuff();  
@@ -235,6 +249,14 @@ void draw() {
   amethyst.displayAlchemy(90, color(255, 0, 255));
   diamond.displayAlchemy(120, color(3, 180, 255));
   garnet.displayAlchemy(150, color(255, 129, 3));
+  redFarm.display();
+  greenFarm.display();
+  purpleFarm.display();
+  goldFarm.display();
+  orangeFarm.display();
+  whiteFarm.display();
+  blackFarm.display();
+  blueFarm.display();
   colorMode(HSB, 360, 100, 100);
   rainbow.displayAlchemy(180, color(random(360), 100, 100));
   colorMode(RGB, 255, 255, 255);
@@ -250,13 +272,15 @@ void draw() {
     {
       Alchemist.display("Alchemist Circle");
       Summon.display("Magic Cauldron");
+      Farm.display("Farm");
     }
-  }
-  else if (location == 1) {
+  } else if (location == -1)
+  {
+    Home.display("Home");
+  } else if (location == 1) {
     Home.display("Home");
     Adventure.display("Adventure!");
-  }
-  else if (location == 3) {
+  } else if (location == 3) {
     Home.display("Home");
     Health.display(3, 50000, 100000, 1000000, 0);
     Click.display(4, 10000, 100000, 198760, 500000);
@@ -266,8 +290,7 @@ void draw() {
     moreDamage.display(4, 90000, 500000, 1000000, 1234560);
     moreHeal.display(4, 85555, 45555, 955555, 1000001);
     // moreDef.display(4, 100000, 999999, 9072834, 10000000);
-  }
-  else if (location == 2) {
+  } else if (location == 2) {
     Back.display("Back");
     Forest.display("Friendly Forest");
     Cave.display("Shallow Cave");
@@ -275,23 +298,19 @@ void draw() {
     Club.display("Da Club");
     Hell.display("Hell");
     Walmart.display("Wally Walmart");
-  }
-  else if (location == 7) {
+  } else if (location == 7) {
     Home.display("Back");
     AlchBag.display("Alchemist Bag");
     AlchBook.display("Alchemist Book");
-  }
-  else if (location == 8) {
+  } else if (location == 8) {
     Adventure.display("Adventure!");
     Back.display("Back");
-  }
-  else if (location == 10)
+  } else if (location == 10)
   {
     Back.display("Back");
     SummonBag.display("Summoning Bag");
     SummonBook.display("Summon Tome");
-  }
-  else if (location == 11)
+  } else if (location == 11)
   {
     triangle.displayCount();
     polygon.displayCount();
@@ -335,6 +354,14 @@ void mouseClicked() {
     line.ifClicked();
     square.ifClicked();
     pentagon.ifClicked();
+    redFarm.initialClicked();
+    greenFarm.initialClicked();
+    purpleFarm.initialClicked();
+    goldFarm.initialClicked();
+    orangeFarm.initialClicked();
+    whiteFarm.initialClicked();
+    blackFarm.initialClicked();
+    blueFarm.initialClicked();
     Health.ifClicked();
     Click.ifClicked();
     Inv.ifClicked();
@@ -363,27 +390,26 @@ void mouseClicked() {
       {
         Alchemist.ifClicked(7, false);
         Summon.ifClicked(10, false);
+        Farm.ifClicked(-1, false);
       }
-    }
-    else if (location == 1) {
+    } else if (location == -1)
+    {
+      Home.ifClicked(0, false);
+    } else if (location == 1) {
       Home.ifClicked(0, false);
       Adventure.ifClicked(2, false);
       if (ifMouse(150, 160, 25, 35) && blockAd > 0) {
         blockAd-=1;
         totalBlocks+=1;
         box-=1;
-      }
-      else if (ifMouse(170, 180, 25, 35) && int(totalBlocks) > 0 && box < boxLimit) {
+      } else if (ifMouse(170, 180, 25, 35) && int(totalBlocks) > 0 && box < boxLimit) {
         blockAd+=1;
         totalBlocks-=1;
         box+=1;
       }
-    }
-
-    else if (location == 3) {
+    } else if (location == 3) {
       Home.ifClicked(0, false);
-    }
-    else if (location == 2) {
+    } else if (location == 2) {
       Back.ifClicked(1, false);
       Forest.ifClicked(4, true);
       Cave.ifClicked(5, true);
@@ -391,8 +417,7 @@ void mouseClicked() {
       Hell.ifClicked(14, true);
       Bikini.ifClicked(15, true);
       Walmart.ifClicked(16, true);
-    }
-    else if (location == 7) {
+    } else if (location == 7) {
       combined = false;
       Back.ifClicked(0, false);
       AlchBag.ifClicked(8, false);
@@ -456,8 +481,7 @@ void mouseClicked() {
 boolean ifMouse(int mousex1, int mousex2, int mousey1, int mousey2) {
   if (mouseX >= mousex1 && mouseX <= mousex2 && mouseY > mousey1 && mouseY < mousey2) {
     return true;
-  }
-  else {
+  } else {
     return false;
   }
 }
