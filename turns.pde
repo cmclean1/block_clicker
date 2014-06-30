@@ -348,6 +348,7 @@ void retreat()
     orange.adCount = 0;
     white.adCount = 0;
     black.adCount = 0;
+    blue.adCount = 0;
     diamond.adCount = 0;
     blockAd = 0;
     box = 0;

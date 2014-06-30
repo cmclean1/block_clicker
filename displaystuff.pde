@@ -7,15 +7,18 @@ void displaystuff()
     stroke(0);
     rect(50, 50, 150, 150);
     noFill();
-    text("Total Blocks: " + floor(totalBlocks), 50, 250);
-    text("Blocks per Second: " + notation(bps, 2),50,235);
+    text("Total Blocks: " + (notation(totalBlocks, 0)), 50, 250);
+    text("Blocks/Second: " + notation(bps, 2), 50, 235);
     text("Save", 16, 25);
     text("Reset", 69, 25);
     rect(5, 5, 50, 30);
     rect(60, 5, 50, 30);
   } else if (location == -1)
   {
-    text("Welcome to the Farm! First, you must buy a \nfarm with blocks, then plant the corresponding \ndot. Farms automatically make more basic \ndots, but consume more blocks to do so. The block \nreduction is not calculated on the home screen.", 20, 50);
+    if (!red.initialbuy && !green.initialbuy)
+    {
+      text("Welcome to the Farm! First, you must buy a \nfarm with blocks, then plant the corresponding \ndot. Farms automatically make more basic \ndots, but consume more blocks to do so. The block \nreduction is not calculated on the home screen. \nIf the amount of blocks becomes zero, all \nfarms will have to be bought again.", 5, 50);
+    }
   } else if (location == 1)
   {
     noFill();
@@ -25,7 +28,7 @@ void displaystuff()
     text("<", 152, 35);
     text(">", 172, 35);
     text(int(blockAd), 200, 35);
-    text("Blocks: " + floor(totalBlocks), 50, 35);
+    text("Blocks: " + notation(totalBlocks, 0), 15, 35);
     text("Intventory Size: " + int(box), 350, 100);
     text("Limit: " + boxLimit, 350, 115);
   } else if (location == 2)

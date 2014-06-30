@@ -3,9 +3,11 @@ class Dot {
   int price;
   float count;
   float auto;
+  float farmAuto;
   float autoCount;
   float increment;
   float alchCount;
+  float farmCount;
   color textFill;
   float adCount;
   int storageLocation;
@@ -13,6 +15,14 @@ class Dot {
   String name;
   boolean alch;
   int whichUp;
+  int type;
+  float farmUp = 0;
+  //  color c;
+  int farmLoc;
+  boolean initialbuy;
+  boolean initialtry = false;
+  int initialprice = 2;
+  float dotsLost;
   Dot(float incrementt, float autoo, int yCornerr, color textfill, String namee, int x, int y, int _whichUp)
   {
     name = namee;
@@ -55,21 +65,19 @@ class Dot {
           fill(255);
           rect(350, yCorner, 125, 50);
           fill(textFill);
-          text("Buy " + name + " Dot: " + price, 355, yCorner+25);
-        }
-        else if (price > totalBlocks)
+          text("Buy " + name + " Dot:\n " + notation(price, 0), 355, yCorner+25);
+        } else if (price > totalBlocks)
         {
           fill(0, 75);
           stroke(0);
           rect(350, yCorner, 125, 50);
           fill(0);
-          text("Buy " + name + " Dot: " + price, 355, yCorner+25);
+          text("Buy " + name + " Dot:\n " + notation(price, 0), 355, yCorner+25);
         }
-      }
-      else if (location == 1)
+      } else if (location == 1)
       {
         text(int(adCount), 200, locationn);
-        text(name + " Dots: " + int(count), 50, locationn);
+        text(name + " Dots: " + notation(count, 0), 15, locationn);
         noFill();
         rect(150, locationn-10, 10, 10);
         rect(170, locationn-10, 10, 10);
@@ -103,8 +111,7 @@ class Dot {
       textAlign(LEFT);
       fill(0);
       text(name + " Dots: " + int(adCount), x, y);
-    }
-    else if (alch)
+    } else if (alch)
     {
       textAlign(CORNER);
       fill(0);
@@ -122,8 +129,7 @@ class Dot {
       if (adCount == 0)
       {
         missing(name + " Dots!");
-      }
-      else
+      } else
       {
         box--;
         adCount--;
@@ -131,44 +137,34 @@ class Dot {
         if (whichAttack == 0)
         {
           playerNull(name + " Dots!");
-        }
-        else if (whichAttack == 1)
+        } else if (whichAttack == 1)
         {
           playerAttack(_name, num, miss);
-        }
-        else if (whichAttack == 2)
+        } else if (whichAttack == 2)
         {
           playerHeal(_name, num, miss);
-        }
-        else if (whichAttack == 3)
+        } else if (whichAttack == 3)
         {
           playerHealOver(_name, num, miss);
-        }
-        else if (whichAttack == 4)
+        } else if (whichAttack == 4)
         {
           playerPoison(_name, num, miss);
-        }
-        else if (whichAttack == 5)
+        } else if (whichAttack == 5)
         {
           playerOrange(_name, num, miss);
-        }
-        else if (whichAttack == 6)
+        } else if (whichAttack == 6)
         {
           playerHurt(_name, num, miss);
-        }
-        else if (whichAttack == 7)
+        } else if (whichAttack == 7)
         {
           playerHealPoison(_name, num, miss);
-        }
-        else if (whichAttack == 8)
+        } else if (whichAttack == 8)
         {
           playerRuby(_name, num, miss);
-        }
-        else if (whichAttack == 9)
+        } else if (whichAttack == 9)
         {
           playerAmethyst(_name, num, miss);
-        }
-        else if (whichAttack == 10)
+        } else if (whichAttack == 10)
         {
           playerAbsorb(_name, num, miss);
         }
@@ -213,6 +209,32 @@ class Dot {
   {
     if (!alch)
     {
+      if (location == -1)
+      {
+        if (ifMouse(330, 340, farmLoc-10, farmLoc))
+        {
+          if (initialprice <= totalBlocks)
+          {
+            initialbuy = true;
+            totalBlocks-=initialprice;
+          } else
+          {
+            initialtry = true;
+          }
+        } else
+        {
+          initialtry = false;
+        }
+        if (ifMouse(340, 350, farmLoc, farmLoc+10) && farmCount > 0)
+        {
+          farmCount--;
+          count++;
+        } else if (ifMouse(360, 370, farmLoc, farmLoc+10) && count > 0)
+        {
+          count--;
+          farmCount++;
+        }
+      }
       if (location == 0 && unlockGeneral >= whichUp)
       {
         if (mouseX > 350 && mouseX < 475 && mouseY > yCorner && mouseY < yCorner + 50)
@@ -221,14 +243,13 @@ class Dot {
           {
             totalBlocks = totalBlocks - price;
             count++;
-            if(unlockGeneral == whichUp)
+            if (unlockGeneral == whichUp)
             {
               unlockGeneral++;
             }
           }
         }
-      }
-      else if (location == 1)
+      } else if (location == 1)
       {
         if (mouseY >= storageLocation-10 && mouseY <= storageLocation && mouseX >= 150 && mouseX <= 160)
         {
@@ -238,8 +259,7 @@ class Dot {
             count+=1;
             box = box - 1;
           }
-        }
-        else if (mouseY >= storageLocation-10 && mouseY <= storageLocation && mouseX >= 170 && mouseX <= 180)
+        } else if (mouseY >= storageLocation-10 && mouseY <= storageLocation && mouseX >= 170 && mouseX <= 180)
         {
           if (count != 0)
           {
@@ -251,8 +271,7 @@ class Dot {
             }
           }
         }
-      }
-      else if (location == 7)
+      } else if (location == 7)
       {
         if (mouseY >= alchLocation && mouseY <= alchLocation+10 && mouseX >= 75 && mouseX <= 95)
         {
@@ -263,8 +282,7 @@ class Dot {
           }
         }
       }
-    }
-    else if (alch)
+    } else if (alch)
     {
       if (location == 8)
       {
@@ -276,8 +294,7 @@ class Dot {
             count+=1;
             box = box - 1;
           }
-        }
-        else if (mouseY >= storageLocation-10 && mouseY <= storageLocation && mouseX >= 170 && mouseX <= 180)
+        } else if (mouseY >= storageLocation-10 && mouseY <= storageLocation && mouseX >= 170 && mouseX <= 180)
         {
           if (count != 0)
           {
@@ -289,8 +306,7 @@ class Dot {
             }
           }
         }
-      }
-      else if (location == 10)
+      } else if (location == 10)
       {
         if (mouseY >= alchLocation && mouseY <= alchLocation+10 && mouseX >= 75 && mouseX <= 95)
         {
@@ -299,6 +315,77 @@ class Dot {
             count--;
             alchCount++;
           }
+        }
+      }
+    }
+  }
+
+  void farmDisplay(int y, int price, float auto, float dotsLosts)
+  {
+    initialprice = price;
+    farmLoc = y;
+    farmAuto = auto;
+    farmUp = farmUp + (farmCount*farmAuto);
+    dotsLost = dotsLosts; 
+    totalBlocks = totalBlocks - (farmCount*farmAuto*dotsLost);
+    if(totalBlocks <= 0)
+    {
+      farmCount = 0;
+      initialbuy = false;
+    }
+    if (farmUp >= 1)
+    {
+      farmUp = 0;
+      farmCount++;
+    }
+    if (location == -1)
+    {
+      noStroke();
+      if (!initialbuy)
+      {
+        fill(0);
+        noStroke();
+        textAlign(LEFT);
+        if (!initialtry)
+        {
+          text("Buy farm for " + initialprice + " blocks.", 350, farmLoc);
+        } else
+        {
+          text("Not enough blocks!", 350, farmLoc);
+        }
+        fill(textFill);   
+        if (textFill == color(100))
+        {
+          fill(255);
+        }  
+        stroke(0);
+        rect(330, farmLoc-10, 10, 10);
+      }
+      noStroke();
+      if (initialbuy)
+      {
+        noFill();
+        stroke(0);
+        rect(340, farmLoc, 10, 10);
+        rect(360, farmLoc, 10, 10);
+        noStroke();
+        fill(0);
+        text("<", 342, farmLoc+10);
+        text(">", 362, farmLoc+10);
+        text("Dots in farm: " + notation(farmCount, 0), 200, farmLoc);
+        text("Dots/Second: " + notation((farmCount*farmAuto*frameRate),2), 200, farmLoc+15);
+        text("Blocks lost/second: " + notation((farmCount*farmAuto*frameRate*dotsLost),2), 200, farmLoc+30);
+        for (int i = 0; i < 5; i++)
+        {
+          fill(155, 89, 3);
+          rect(400+(i*20)-(5/2), farmLoc, 5, 20);
+          fill(textFill);
+          if (textFill == color(100))
+          {
+            stroke(0);
+            fill(255);
+          }
+          ellipse(400+(i*20), farmLoc, 15, 15);
         }
       }
     }

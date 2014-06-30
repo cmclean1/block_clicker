@@ -57,7 +57,6 @@ ugButton Health, Click, Inv, SeeHealth, neverMiss, moreDamage, moreHeal, moreDef
 
 Dot red, green, purple, gold, orange, white, black, blue;
 Dot diamond, unstable, garnet, rainbow, obsidian, emerald, ruby, amethyst;
-Farm redFarm, greenFarm, purpleFarm, goldFarm, orangeFarm, whiteFarm, blackFarm, blueFarm;
 
 float totalBlocks;
 float blockAd;
@@ -95,14 +94,6 @@ void setup() {
   obsidian = new Dot(-.1, 1, "Obsidian", 35, 36); 
   unstable = new Dot( random(-.001, .001), 1, "Unstable", 29, 30);
 
-  redFarm = new Farm(1, color(255, 0, 0), 50);
-  greenFarm = new Farm(2, color(0, 255, 0), 100);
-  purpleFarm = new Farm(3, color(255, 0, 255), 150);
-  goldFarm = new Farm(4, color(216, 194, 22), 200);
-  orangeFarm = new Farm(5, color(255, 129, 3), 250);
-  whiteFarm = new Farm(6, color(255), 300);
-  blackFarm = new Farm(7, color(0), 350);
-  blueFarm = new Farm(8, color(0, 0, 255), 400);
 
   Storage = new button(50, 425);
   Home = new button(50, 425);
@@ -214,6 +205,7 @@ void setup() {
 void testStuff()
 {
   unlockGeneral = 10;
+  gold.count = 20;
 }
 void draw() {
   testStuff();  
@@ -253,14 +245,14 @@ void draw() {
   amethyst.displayAlchemy(90, color(255, 0, 255));
   diamond.displayAlchemy(120, color(3, 180, 255));
   garnet.displayAlchemy(150, color(255, 129, 3));
-  redFarm.display();
-  greenFarm.display();
-  purpleFarm.display();
-  goldFarm.display();
-  orangeFarm.display();
-  whiteFarm.display();
-  blackFarm.display();
-  blueFarm.display();
+  red.farmDisplay(50, 2, .001, 8);
+  green.farmDisplay(100, 2, .002, 8);
+  purple.farmDisplay(150, 2, .001, 9);
+  gold.farmDisplay(200, 2, .001, 6.5);
+  orange.farmDisplay(250, 2, .001, 7);
+  white.farmDisplay(300, 2, .0015, 5);
+  black.farmDisplay(350, 2, .0005, 10);
+  blue.farmDisplay(400, 2, .0003, 10);
   colorMode(HSB, 360, 100, 100);
   rainbow.displayAlchemy(180, color(random(360), 100, 100));
   colorMode(RGB, 255, 255, 255);
@@ -358,14 +350,6 @@ void mouseClicked() {
     line.ifClicked();
     square.ifClicked();
     pentagon.ifClicked();
-    redFarm.initialClicked();
-    greenFarm.initialClicked();
-    purpleFarm.initialClicked();
-    goldFarm.initialClicked();
-    orangeFarm.initialClicked();
-    whiteFarm.initialClicked();
-    blackFarm.initialClicked();
-    blueFarm.initialClicked();
     Health.ifClicked();
     Click.ifClicked();
     Inv.ifClicked();
@@ -496,13 +480,13 @@ String notation(float x, int decimal)
   String what;
   int basetentimes = 0;
   float xx = x;
-  if (xx <= 99)
+  if (xx <= 999)
   {
     what = "" + nf(x, 0, decimal);
     return what;
   } else
   {
-    while (xx >=99)
+    while (xx >= 99)
     {
       xx = xx/10;
       basetentimes++;
